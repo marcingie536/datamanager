@@ -10,6 +10,8 @@ import org.neuroph.core.data.DataSetRow;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zaju.datamanager.exceptions.DataConvertException;
+
 @Service
 public class DataConvertService {
 	
@@ -34,6 +36,10 @@ public class DataConvertService {
 		double[] desiredOutputVector = new double[outputSize];
 		
 		String[] splittedLine = line.split(separator);
+		
+		if(splittedLine.length != inputSize + outputSize) {
+			throw DataConvertException.getInvalidFileLineException();
+		}
 		
 		for(int i = 0; i < inputSize; i++) {
 			inputVector[i] = Double.parseDouble(splittedLine[i]);
